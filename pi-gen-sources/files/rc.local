@@ -144,7 +144,8 @@ then
 else
   echo "Setup doesn't seem to have completed, there is no /root/bin/archiveloop."
   echo "Try re-running /root/bin/setup-teslausb (re-downloading if needed),"
-  echo "or export HEADLESS=true and run /etc/rc.local if you want to run automatic setup."
+  echo "or export HEADLESS_SETUP=true and run /etc/rc.local if you want to run automatic setup."
+  echo "(you may also need to rm /boot/TESLAUSB_SETUP_FINISHED to force setup to re-run)"
 fi
 exit 0
 
