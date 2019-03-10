@@ -23,6 +23,6 @@ function check_available_space () {
   setup_progress "There is sufficient space available."
 }
 
-check_variable "campercent"
+check_variable "camsize"
 
 check_available_space

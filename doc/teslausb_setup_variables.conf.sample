@@ -14,7 +14,12 @@ export archiveserver=your_archive_name_or_ip
 export sharename=your_archive_share_name
 export shareuser=username
 export sharepassword=password
-export campercent=100
+export camsize=100%
+
+# if you set camsize to less than 100%, but don't want music to use
+# all the remaining space, you can specify how much space you want
+# music to use by setting this variable
+#export musicsize=4G
 
 # Wifi setup information
 export SSID=your_ssid

@@ -36,7 +36,7 @@ A sample conf file is located in the `boot` folder on the SD card.
     export sharename=SailfishCam
     export shareuser=sailfish
     export sharepassword='pa$$w0rd'
-    export campercent=100
+    export camsize=100%
     export SSID=your_ssid
     export WIFIPASS=your_wifi_password
     export HEADLESS_SETUP=true

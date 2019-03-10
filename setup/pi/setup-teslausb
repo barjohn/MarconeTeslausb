@@ -7,7 +7,8 @@ USE_LED_FOR_SETUP_PROGRESS=true
 CONFIGURE_ARCHIVING=${CONFIGURE_ARCHIVING:-true}
 UPGRADE_PACKAGES=${UPGRADE_PACKAGES:-true}
 TESLAUSB_HOSTNAME=${TESLAUSB_HOSTNAME:-teslausb}
-export campercent=${campercent:-90}
+export camsize=${camsize:-90}
+export musicsize=${musicsize:-10}
 
 function setup_progress () {
   local setup_logfile=/boot/teslausb-headless-setup.log
@@ -168,7 +169,7 @@ function create_usb_drive_backing_files () {
   if [ ! -e $BACKINGFILES_MOUNTPOINT/*.bin ]
   then
     setup_progress "Creating backing disk files."
-    /tmp/create-backingfiles.sh "$campercent" "$BACKINGFILES_MOUNTPOINT"
+    /tmp/create-backingfiles.sh "$camsize" "$musicsize" "$BACKINGFILES_MOUNTPOINT"
   fi
 }
 

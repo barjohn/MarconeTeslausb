@@ -79,13 +79,21 @@ Follow the instructions corresponding to the technology you'd like to use to hos
 * **Experimental:** Google Drive, Amazon S3, DropBox, Microsoft OneDrive: [Instructions](doc/SetupRClone.md)
 
 ### Optional: Allocate SD Card Storage
-Indicate how much, as a percentage, of the drive you want to allocate to recording dashcam footage by running this command:
+Indicate how much of the drive you want to allocate to recording dashcam footage and music by running this command:
 
 ```
- export campercent=<number>
+ export camsize=<number or percentage>
 ```
 
-For example, using `export campercent=100` would allocate 100% of the space to recording footage from your car and would not create a separate music partition. `export campercent=50` would allocate half of the space for a dashcam footage drive and allocates the other half to for a music storage drive. If you don't set `campercent`, the script will allocate 90% of the total space to the dashcam by default.
+For example, using `export camsize=100%` would allocate 100% of the space to recording footage from your car and would not create a separate music partition. `export camsize=50%` would allocate half of the space for a dashcam footage drive and allocates the other half to for a music storage drive, unless otherwise specified. If you don't set `camsize`, the script will allocate 90% of the total space to the dashcam by default. Size can be specified as a percentage or as an absolute value, e.g. `export camsize=16G` would allocate 16 gigabytes for dashcam footage.
+If you want limit music storage so it doesn't use up all the remaining storage after camera storage has been allocated, use `export musicsize=<number or percentage>` to specify the size.
+For example, if there is 100 gigabyte of free space, then
+```
+ export camsize=50%
+ export musicsize=10%
+```
+would allocate 50 gigabytes for camera and 10 gigabytes for music, leaving 40 gigabytes free.
+
 
 ### Optional: Configure push notification via Pushover
 If you'd like to receive a text message when your Pi finishes archiving clips follow these [Instructions](doc/ConfigureNotificationsForArchive.md).
@@ -119,7 +127,7 @@ On the next boot, the Pi hostname will become `teslausb`, so future `ssh` sessio
 Your Pi is now ready to be plugged into your Tesla. If you want to add music to the Pi, follow the instructions in the next section.
 
 ## Optional: Add music to the Pi
-> Note: If you set `campercent` to `100` then skip this step.
+> Note: If you set `camsize` to `100%` then skip this step.
 
 Connect the Pi to a computer. If you're using a cable be sure to use the port labeled "USB" on the circuitboard. 
 1. Wait for the Pi to show up on the computer as a USB drive.
