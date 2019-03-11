@@ -5,6 +5,15 @@ BACKINGFILES_MOUNTPOINT="$2"
 
 G_MASS_STORAGE_CONF_FILE_NAME=/etc/modprobe.d/g_mass_storage.conf
 
+function first_partition_offset () {
+  local filename="$1"
+  local size_in_bytes=$(sfdisk -l -o Size -q --bytes "$1" | tail -1)
+  local size_in_sectors=$(sfdisk -l -o Sectors -q "$1" | tail -1)
+  local sector_size=$(($size_in_bytes/$size_in_sectors))
+  local partition_start_sector=$(sfdisk -l -o Start -q "$1" | tail -1)
+  echo $(($partition_start_sector*$sector_size))
+}
+
 function add_drive () {
   local name="$1"
   local label="$2"
@@ -13,12 +22,19 @@ function add_drive () {
   local filename="$4"
   echo "Allocating ${size}K for $filename..."
   fallocate -l "$size"K "$filename"
-  mkfs.vfat "$filename" -F 32 -n "$label"
+  echo "type=c" | sfdisk "$filename" > /dev/null
+  local partition_offset=$(first_partition_offset "$filename")
+  losetup -o $partition_offset loop0 "$filename"
+  mkfs.vfat /dev/loop0 -F 32 -n "$label"
+  losetup -d /dev/loop0
 
   local mountpoint=/mnt/"$name"
 
-  mkdir "$mountpoint"
-  echo "$filename $mountpoint vfat noauto,users,umask=000 0 0" >> /etc/fstab
+  if [ ! -e "$mountpoint" ]
+  then
+    mkdir "$mountpoint"
+    echo "$filename $mountpoint vfat noauto,users,umask=000,offset=$partition_offset 0 0" >> /etc/fstab
+  fi
 }
 
 function create_teslacam_directory () {
