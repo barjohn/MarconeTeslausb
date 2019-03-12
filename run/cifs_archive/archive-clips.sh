@@ -4,7 +4,7 @@ log "Moving clips to archive..."
 
 NUM_FILES_MOVED=0
 
-for file_name in "$CAM_MOUNT"/TeslaCam/saved*; do
+for file_name in "$CAM_MOUNT"/TeslaCam/saved* "$CAM_MOUNT"/TeslaCam/SavedClips/*; do
   [ -e "$file_name" ] || continue
   log "Moving $file_name ..."
   

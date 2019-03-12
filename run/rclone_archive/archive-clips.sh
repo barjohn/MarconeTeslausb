@@ -6,7 +6,7 @@ source /root/.teslaCamRcloneConfig
 
 NUM_FILES_MOVED=0
 
-for file_name in "$CAM_MOUNT"/TeslaCam/saved*; do
+for file_name in "$CAM_MOUNT"/TeslaCam/saved* "$CAM_MOUNT"/TeslaCam/SavedClips/*; do
   [ -e "$file_name" ] || continue
   log "Moving $file_name ..."
   rclone --config /root/.config/rclone/rclone.conf move "$file_name" "$drive:$path" >> "$LOG_FILE" 2>&1 || echo ""
