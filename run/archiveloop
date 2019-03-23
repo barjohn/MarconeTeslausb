@@ -243,6 +243,24 @@ function truncate_log () {
   fi
 }
 
+function slowblink () {
+  echo timer > /sys/class/leds/led0/trigger
+  echo 900 > /sys/class/leds/led0/delay_on
+  echo 100 > /sys/class/leds/led0/delay_off
+}
+
+function fastblink () {
+  echo timer > /sys/class/leds/led0/trigger
+  echo 150 > /sys/class/leds/led0/delay_on
+  echo 50 > /sys/class/leds/led0/delay_off
+}
+
+
+function doubleblink () {
+  echo heartbeat > /sys/class/leds/led0/trigger
+  echo 1 > /sys/class/leds/led0/invert  
+}
+
 export -f mount_mountpoint
 export -f ensure_mountpoint_is_mounted
 export -f retry
@@ -251,15 +269,22 @@ export -f log
 
 log "Starting..."
 
+
 if archive_is_reachable
 then
+  fastblink
+
   # archive_clips will fix errors in the cam file
   mount_and_fix_errors_in_music_file
 
   archive_clips
 
+  doubleblink
+
   wait_for_archive_to_be_unreachable
 else
+  slowblink
+
   mount_and_fix_errors_in_files
 
   connect_usb_drives_to_host
@@ -267,11 +292,17 @@ fi
 
 while [ true ]
 do
+  slowblink
+
   wait_for_archive_to_be_reachable
+
+  fastblink
 
   archive_clips
 
   truncate_log
-  
+
+  doubleblink
+
   wait_for_archive_to_be_unreachable
 done
