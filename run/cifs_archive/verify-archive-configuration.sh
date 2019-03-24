@@ -15,8 +15,6 @@ function check_archive_server_reachable () {
 }
 
 function check_archive_mountable () {
-  local archive_server_ip_address="$1"
-  
   local test_mount_location="/tmp/archivetestmount"
   
   echo "Verifying that the archive share is mountable..."
@@ -33,8 +31,8 @@ function check_archive_mountable () {
 
   local mount_failed=false
   echo "Mount command-line: "
-  echo "mount -t cifs //$archive_server_ip_address/$sharename $test_mount_location -o vers=${cifs_version},credentials=${tmp_credentials_file_path},iocharset=utf8,file_mode=0777,dir_mode=0777"
-  mount -t cifs "//$archive_server_ip_address/$sharename" "$test_mount_location" -o "vers=${cifs_version},credentials=${tmp_credentials_file_path},iocharset=utf8,file_mode=0777,dir_mode=0777" || mount_failed=true
+  echo "mount -t cifs //$archiveserver/$sharename $test_mount_location -o vers=${cifs_version},credentials=${tmp_credentials_file_path},iocharset=utf8,file_mode=0777,dir_mode=0777"
+  mount -t cifs "//$archiveserver/$sharename" "$test_mount_location" -o "vers=${cifs_version},credentials=${tmp_credentials_file_path},iocharset=utf8,file_mode=0777,dir_mode=0777" || mount_failed=true
 
   if [ "$mount_failed" = true ]
   then
@@ -56,7 +54,5 @@ function install_required_packages () {
 install_required_packages
 
 
-ARCHIVE_SERVER_IP_ADDRESS="$( $INSTALL_DIR/lookup-ip-address.sh "$archiveserver" )"
-
 check_archive_server_reachable
-check_archive_mountable "$ARCHIVE_SERVER_IP_ADDRESS"
+check_archive_mountable

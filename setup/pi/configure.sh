@@ -117,7 +117,6 @@ function install_archive_scripts () {
     echo "Installing base archive scripts into $install_path"
     get_script $install_path archiveloop run
     get_script $install_path remountfs_rw run
-    get_script $install_path lookup-ip-address.sh run
 
     echo "Installing archive module scripts"
     get_script $install_path verify-archive-configuration.sh $archive_module
