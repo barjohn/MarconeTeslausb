@@ -31,8 +31,8 @@ function check_archive_mountable () {
 
   local mount_failed=false
   echo "Mount command-line: "
-  echo "mount -t cifs //$archiveserver/$sharename $test_mount_location -o vers=${cifs_version},credentials=${tmp_credentials_file_path},iocharset=utf8,file_mode=0777,dir_mode=0777"
-  mount -t cifs "//$archiveserver/$sharename" "$test_mount_location" -o "vers=${cifs_version},credentials=${tmp_credentials_file_path},iocharset=utf8,file_mode=0777,dir_mode=0777" || mount_failed=true
+  echo "mount -t cifs //$1/$2 $test_mount_location -o vers=${cifs_version},credentials=${tmp_credentials_file_path},iocharset=utf8,file_mode=0777,dir_mode=0777"
+  mount -t cifs "//$1/$2" "$test_mount_location" -o "vers=${cifs_version},credentials=${tmp_credentials_file_path},iocharset=utf8,file_mode=0777,dir_mode=0777" || mount_failed=true
 
   if [ "$mount_failed" = true ]
   then
@@ -53,6 +53,9 @@ function install_required_packages () {
 
 install_required_packages
 
-
 check_archive_server_reachable
-check_archive_mountable
+check_archive_mountable "$archiveserver" "$sharename"
+if [ ! -z ${musicsharename:+x} ]
+then
+  check_archive_mountable "$archiveserver" "$musicsharename"
+fi

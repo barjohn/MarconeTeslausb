@@ -6,6 +6,7 @@ export LOG_FILE=/mutable/archiveloop.log
 export CAM_MOUNT=/mnt/cam
 export MUSIC_MOUNT=/mnt/music
 export ARCHIVE_MOUNT=/mnt/archive
+export MUSIC_ARCHIVE_MOUNT=/mnt/musicarchive
 
 function log () {
   echo "$( date )" >> "$LOG_FILE"
@@ -205,31 +206,57 @@ function disconnect_usb_drives_from_host () {
 function archive_teslacam_clips () {
   log "Starting..."
 
-  /root/bin/connect-archive.sh
-
-  disconnect_usb_drives_from_host
-
   ensure_cam_file_is_mounted
 
   fix_errors_in_cam_file
 
   /root/bin/archive-clips.sh
 
-  /root/bin/disconnect-archive.sh
-
   unmount_cam_file
+}
 
-  connect_usb_drives_to_host
+function copy_music_files () {
+  log "Starting..."
+
+  ensure_music_file_is_mounted
+
+  fix_errors_in_music_file
+
+  /root/bin/copy-music.sh
+
+  unmount_music_file
 }
 
 function archive_clips () {
   log "Archiving..."
+
+  disconnect_usb_drives_from_host
+
+  /root/bin/connect-archive.sh
+
   if archive_teslacam_clips
   then
     log "Finished archiving."
   else
     log "Archiving failed."
   fi
+
+  if [ "$MUSIC_ARCHIVE_MOUNT" != "" ]
+  then
+    log "Copying music..."
+    if copy_music_files
+    then
+      log "Finished copying music."
+    else
+      log "Copying music failed."
+    fi
+  else
+    log "No music archive configured"
+  fi
+
+  /root/bin/disconnect-archive.sh
+
+  connect_usb_drives_to_host
 }
 
 function truncate_log () {

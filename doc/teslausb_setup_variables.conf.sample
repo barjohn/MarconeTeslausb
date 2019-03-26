@@ -21,6 +21,13 @@ export camsize=100%
 # music to use by setting this variable
 #export musicsize=4G
 
+# If you want to automatically copy music from a CIFS share every time
+# the Pi connects to wifi, set the following variable. The share is
+# assumed to exist on the same server as the archive share. It can
+# be the same share as the share used for backing up recordings, but
+# the folder needs to be different.
+# export musicsharename=your_music_share/music_folder
+
 # Wifi setup information
 export SSID=your_ssid
 export WIFIPASS=your_pass
