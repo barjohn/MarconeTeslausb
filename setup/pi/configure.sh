@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
-REPO=${REPO:-cimryan}
-BRANCH=${BRANCH:-master}
+REPO=${REPO:-therealmarcone}
+BRANCH=${BRANCH:-main-dev}
 
 ARCHIVE_SYSTEM=${ARCHIVE_SYSTEM:-none}
 

@@ -112,8 +112,8 @@ then
 
     if [ ! -e "/root/bin/setup-teslausb" ] 
     then
-      REPO=${REPO:-cimryan}
-      BRANCH=${BRANCH:-master}
+      REPO=${REPO:-therealmarcone}
+      BRANCH=${BRANCH:-main-dev}
       # Script doesn't exist, grab it. 
       setup_progress "Grabbing main setup file."
       get_script /root/bin setup-teslausb setup/pi

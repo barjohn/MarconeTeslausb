@@ -10,11 +10,11 @@ This is a streamlined process for setting up the Pi. You'll flash a preconfigure
 
 ## Configure the SD card before first boot of the Pi
 
-1. Flash the [latest image release](https://github.com/rtgoodwin/teslausb/releases) using Etcher or similar. 
+1. Flash the [latest image release](https://github.com/therealmarcone/teslausb/releases) using Etcher or similar. 
 
 ### For headless (automatic) setup
 
-1. Mount the card again, and in the `boot` directory create a `teslausb_setup_variables.conf` file to export the same environment varibles normally needed for manual setup (including archive info, Wifi, and push notifications (if desired). 
+1. Mount the card again, and in the `boot` directory create a `teslausb_setup_variables.conf` file to export the same environment variables normally needed for manual setup (including archive info, Wifi, and push notifications (if desired). 
 A sample conf file is located in the `boot` folder on the SD card. 
 
     The file should contain the entries below at a minimum, but **replace with your own values**. Be sure that your WiFi password is enclosed in single quotes, and that if it contains one or more single quote characters you replace each single quote character with a backslash followed by a single quote character.
@@ -40,8 +40,8 @@ A sample conf file is located in the `boot` folder on the SD card.
     export SSID=your_ssid
     export WIFIPASS=your_wifi_password
     export HEADLESS_SETUP=true
-    # export REPO=rtgoodwin
-    # export BRANCH=headless-patch
+    # export REPO=therealmarcone
+    # export BRANCH=main-dev
     # By default will use the main repo, but if you've been asked to test the image, 
     # these variables should be uncommunted and updated to point to the right repo/branch 
 
@@ -106,4 +106,4 @@ At this point the next boot should start the Dashcam/music drives like normal. I
 
 # Image modification sources
 
-The sources for the image modifications, and details, are in the [pi-gen-sources folder](https://github.com/cimryan/teslausb/pi-gen-sources). 
+The sources for the image modifications, and instructions, are in the [pi-gen-sources folder](https://github.com/therealmarcone/teslausb/pi-gen-sources). 
