@@ -9,7 +9,7 @@ export ARCHIVE_MOUNT=/mnt/archive
 export MUSIC_ARCHIVE_MOUNT=/mnt/musicarchive
 
 function log () {
-  echo "$( date )" >> "$LOG_FILE"
+  echo -n "$( date ): " >> "$LOG_FILE"
   echo "$1" >> "$LOG_FILE"
 }
 

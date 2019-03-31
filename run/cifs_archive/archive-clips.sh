@@ -8,6 +8,12 @@ function moveclips() {
   ROOT="$1"
   PATTERN="$2"
 
+  if [ ! -d "$ROOT" ]
+  then
+    log "$ROOT does not exist, skipping"
+    return
+  fi
+
   while read file_name
   do
     if [ -d "$ROOT/$file_name" ]
