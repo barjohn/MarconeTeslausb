@@ -241,7 +241,7 @@ function archive_clips () {
     log "Archiving failed."
   fi
 
-  if [ "$MUSIC_ARCHIVE_MOUNT" != "" ]
+  if [ -d "$MUSIC_ARCHIVE_MOUNT" -a -d "$MUSIC_MOUNT" ]
   then
     log "Copying music..."
     if copy_music_files
