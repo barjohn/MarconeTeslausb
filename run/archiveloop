@@ -16,7 +16,7 @@ function log () {
 function fix_errors_in_mount_point () {
   local mount_point="$1"
   log "Running fsck on $mount_point..."
-  local backingfile=$(mount | grep -w '/mnt/cam' | awk '{print $1}') 
+  local backingfile=$(mount | grep -w "$mount_point" | awk '{print $1}') 
   local loopback=$(losetup -l | grep -w  "$backingfile" | awk '{print $1}')
   /sbin/fsck "$loopback" -- -a >> "$LOG_FILE" 2>&1 || echo ""
   log "Finished fsck on $mount_point."
