@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-REPO=${REPO:-therealmarcone}
+REPO=${REPO:-marcone}
 BRANCH=${BRANCH:-main-dev}
 HEADLESS_SETUP=${HEADLESS_SETUP:-false}
 USE_LED_FOR_SETUP_PROGRESS=true

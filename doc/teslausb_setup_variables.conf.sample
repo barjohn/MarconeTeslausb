@@ -44,8 +44,8 @@ export HEADLESS_SETUP=true
 # export pushover_app_key=app_key
 
 # Uncomment and change if you want setup scripts to be pulled
-# from a different repo than the "main" github.com/therealmarcone/teslausb
-# export REPO=therealmarcone
+# from a different repo than the "main" github.com/marcone/teslausb
+# export REPO=marcone
 
 # Uncomment and change if you want a different branch than main-dev
 # export BRANCH=main-dev

@@ -10,7 +10,7 @@ This is a streamlined process for setting up the Pi. You'll flash a preconfigure
 
 ## Configure the SD card before first boot of the Pi
 
-1. Flash the [latest image release](https://github.com/therealmarcone/teslausb/releases) using Etcher or similar. 
+1. Flash the [latest image release](https://github.com/marcone/teslausb/releases) using Etcher or similar. 
 
 ### For headless (automatic) setup
 
@@ -40,7 +40,7 @@ A sample conf file is located in the `boot` folder on the SD card.
     export SSID=your_ssid
     export WIFIPASS=your_wifi_password
     export HEADLESS_SETUP=true
-    # export REPO=therealmarcone
+    # export REPO=marcone
     # export BRANCH=main-dev
     # By default will use the main repo, but if you've been asked to test the image, 
     # these variables should be uncommunted and updated to point to the right repo/branch 
@@ -106,4 +106,4 @@ At this point the next boot should start the Dashcam/music drives like normal. I
 
 # Image modification sources
 
-The sources for the image modifications, and instructions, are in the [pi-gen-sources folder](https://github.com/therealmarcone/teslausb/pi-gen-sources). 
+The sources for the image modifications, and instructions, are in the [pi-gen-sources folder](https://github.com/marcone/teslausb/pi-gen-sources). 

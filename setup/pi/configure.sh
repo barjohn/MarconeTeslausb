@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-REPO=${REPO:-therealmarcone}
+REPO=${REPO:-marcone}
 BRANCH=${BRANCH:-main-dev}
 
 ARCHIVE_SYSTEM=${ARCHIVE_SYSTEM:-none}
