@@ -9,7 +9,7 @@ These instructions will configure a Raspberry Pi so that you can proceed with th
 1. Change to the directory where the SD card's `boot` folder (containing `cmdline.txt`) is located. On a Mac, this will be `/Volumes/boot`. On Linux the location may vary; on recent Ubuntu installations it will be /media/$USER/boot
 1. Run the following commands:
     ```
-    wget https://raw.githubusercontent.com/cimryan/teslausb/master/setup/macos_linux/setup-piForHeadlessConfig.sh
+    wget https://raw.githubusercontent.com/marcone/teslausb/main-dev/setup/macos_linux/setup-piForHeadlessConfig.sh
     chmod +x setup-piForHeadlessConfig.sh
     ```
 1. Set your SSID (Wifi network name) and WIFIPASS environment variables. The script will insert them into the `wpa_supplicant.conf` when creating it:
