@@ -1,5 +1,16 @@
 # teslausb
 
+## Changes
+
+This fork contains the following changes compared to the upstream [cimryan/teslausb](https://github.com/cimryan/teslausb):
+1. Supports Tesla firmware 2019.x
+1. Supports automatically syncing music from a CIFS share folder
+1. Status indicator while running
+1. Easier and more flexible way to specify sizes of camera and music disks
+
+It is recommended to use the [prebuilt image](https://github.com/marcone/teslausb/releases) and [one step setup instructions](https://github.com/marcone/teslausb/blob/main-dev/doc/OneStepSetup.md) to get started, as the instructions below may be outdated.
+
+
 ## Intro
 
 You can configure a Raspberry Pi Zero W so that your Tesla thinks it's a USB drive and will write dashcam footage to it. Since it's a computer:
