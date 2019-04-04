@@ -106,4 +106,4 @@ At this point the next boot should start the Dashcam/music drives like normal. I
 
 # Image modification sources
 
-The sources for the image modifications, and instructions, are in the [pi-gen-sources folder](https://github.com/marcone/teslausb/pi-gen-sources). 
+The sources for the image modifications, and instructions, are in the [pi-gen-sources folder](https://github.com/marcone/teslausb/tree/main-dev/pi-gen-sources). 
