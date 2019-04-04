@@ -16,7 +16,8 @@ function check_available_space () {
 
   if [ "$available_space" -lt  4294967296 ]
   then
-    setup_progress "STOP: The MicroSD card is too small."
+    setup_progress "STOP: The MicroSD card is too small: $available_space bytes available."
+    setup_progress "$(parted -m /dev/mmcblk0 print)"
     exit 1
   fi
 

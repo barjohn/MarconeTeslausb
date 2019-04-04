@@ -254,7 +254,10 @@ headless_setup_mark_setup_success
 
 if [ "$CONFIGURE_ARCHIVING" = true ]
 then
+  setup_progress "calling configure.sh"
   /root/configure.sh
+else
+  setup_progress "skipping configure.sh"
 fi
 
 make_root_fs_readonly

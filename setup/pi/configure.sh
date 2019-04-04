@@ -7,11 +7,22 @@ ARCHIVE_SYSTEM=${ARCHIVE_SYSTEM:-none}
 
 export INSTALL_DIR=${INSTALL_DIR:-/root/bin}
 
+
+function log_progress () {
+  if typeset -f setup_progress > /dev/null; then
+    setup_progress "$1"
+  else
+    echo "$1"
+  fi
+}
+
+log_progress "$0 starting with REPO=$REPO, BRANCH=$BRANCH, ARCHIVE_SYSTEM=$ARCHIVE_SYSTEM, INSTALL_DIR=$INSTALL_DIR"
+
 function check_variable () {
     local var_name="$1"
     if [ -z "${!var_name+x}" ]
     then
-        echo "STOP: Define the variable $var_name like this: export $var_name=value"
+        log_progress "STOP: Define the variable $var_name like this: export $var_name=value"
         exit 1
     fi
 }
@@ -21,10 +32,10 @@ function get_script () {
     local name="$2"
     local remote_path="${3:-}"
 
-    echo "Starting download for $local_path/$name"
+    log_progress "Starting download for $local_path/$name"
     curl -o "$local_path/$name" https://raw.githubusercontent.com/"$REPO"/teslausb/"$BRANCH"/"$remote_path"/"$name"
     chmod +x "$local_path/$name"
-    echo "Done"
+    log_progress "Done"
 }
 
 function install_rc_local () {
@@ -32,11 +43,11 @@ function install_rc_local () {
 
     if grep -q archiveloop /etc/rc.local
     then
-        echo "Skipping rc.local installation"
+        log_progress "Skipping rc.local installation"
         return
     fi
 
-    echo "Configuring /etc/rc.local to run the archive scripts at startup..."
+    log_progress "Configuring /etc/rc.local to run the archive scripts at startup..."
     echo "#!/bin/bash -eu" > ~/rc.local
     echo "archiveserver=\"${archiveserver}\"" >> ~/rc.local
     echo "install_home=\"${install_home}\"" >> ~/rc.local
@@ -56,11 +67,11 @@ EOF
 
     cat ~/rc.local > /etc/rc.local
     rm ~/rc.local
-    echo "Installed rc.local."
+    log_progress "Installed rc.local."
 }
 
 function check_archive_configs () {
-    echo -n "Checking archive configs: "
+    log_progress "Checking archive configs: "
 
     case "$ARCHIVE_SYSTEM" in
         rsync)
@@ -83,12 +94,12 @@ function check_archive_configs () {
         none)
             ;;
         *)
-            echo "STOP: Unrecognized archive system: $ARCHIVE_SYSTEM"
+            log_progress "STOP: Unrecognized archive system: $ARCHIVE_SYSTEM"
             exit 1
             ;;
     esac
     
-    echo "done"
+    log_progress "done"
 }
 
 function get_archive_module () {
@@ -114,11 +125,11 @@ function install_archive_scripts () {
     local install_path="$1"
     local archive_module="$2"
 
-    echo "Installing base archive scripts into $install_path"
+    log_progress "Installing base archive scripts into $install_path"
     get_script $install_path archiveloop run
     get_script $install_path remountfs_rw run
 
-    echo "Installing archive module scripts"
+    log_progress "Installing archive module scripts"
     get_script $install_path verify-archive-configuration.sh $archive_module
     get_script $install_path configure-archive.sh $archive_module
     get_script $install_path archive-clips.sh $archive_module
@@ -137,14 +148,14 @@ function check_pushover_configuration () {
     then
         if [ ! -n "${pushover_user_key+x}" ] || [ ! -n "${pushover_app_key+x}"  ]
         then
-            echo "STOP: You're trying to setup Pushover but didn't provide your User and/or App key."
-            echo "Define the variables like this:"
-            echo "export pushover_user_key=put_your_userkey_here"
-            echo "export pushover_app_key=put_your_appkey_here"
+            log_progress "STOP: You're trying to setup Pushover but didn't provide your User and/or App key."
+            log_progress "Define the variables like this:"
+            log_progress "export pushover_user_key=put_your_userkey_here"
+            log_progress "export pushover_app_key=put_your_appkey_here"
             exit 1
         elif [ "${pushover_user_key}" = "put_your_userkey_here" ] || [  "${pushover_app_key}" = "put_your_appkey_here" ]
         then
-            echo "STOP: You're trying to setup Pushover, but didn't replace the default User and App key values."
+            log_progress "STOP: You're trying to setup Pushover, but didn't replace the default User and App key values."
             exit 1
         fi
     fi
@@ -153,12 +164,12 @@ function check_pushover_configuration () {
 function configure_pushover () {
     if [ ! -z "${pushover_enabled+x}" ]
     then
-        echo "Enabling pushover"
+        log_progress "Enabling pushover"
         echo "export pushover_enabled=true" > /root/.teslaCamPushoverCredentials
         echo "export pushover_user_key=$pushover_user_key" >> /root/.teslaCamPushoverCredentials
         echo "export pushover_app_key=$pushover_app_key" >> /root/.teslaCamPushoverCredentials
     else
-        echo "Pushover not configured."
+        log_progress "Pushover not configured."
     fi
 }
 
@@ -175,13 +186,13 @@ function install_pushover_scripts() {
 
 if [ "$ARCHIVE_SYSTEM" = "none" ]
 then
-    echo "Skipping archive configuration."
+    log_progress "Skipping archive configuration."
     exit 0
 fi
 
 if ! [ $(id -u) = 0 ]
 then
-    echo "STOP: Run sudo -i."
+    log_progress "STOP: Run sudo -i."
     exit 1
 fi
 
@@ -190,7 +201,7 @@ then
     mkdir "$INSTALL_DIR"
 fi
 
-echo "Getting files from $REPO:$BRANCH"
+log_progress "Getting files from $REPO:$BRANCH"
 
 check_and_configure_pushover
 install_pushover_scripts "$INSTALL_DIR"
@@ -198,7 +209,7 @@ install_pushover_scripts "$INSTALL_DIR"
 check_archive_configs
 
 archive_module="$( get_archive_module )"
-echo "Using archive module: $archive_module"
+log_progress "Using archive module: $archive_module"
 
 install_archive_scripts $INSTALL_DIR $archive_module
 "$INSTALL_DIR"/verify-archive-configuration.sh
